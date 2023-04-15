@@ -21,4 +21,14 @@ async function create (req, res) {
   }
 }
 
-export {index, create}
+async function update (req, res) {
+  const { id: _id } = req.params;
+  const post = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("No Post with that ID");
+
+  const updatedPost = await Post.findByIdAndUpdate(_id, post, { new: true });
+  res.json(updatedPost)
+}
+
+export {index, create, update}

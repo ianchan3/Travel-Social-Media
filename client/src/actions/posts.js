@@ -12,8 +12,17 @@ export const getPosts = () => async (dispatch) => {
 export const createPost = (post) => async (dispatch) => {
   try {
     const {data} = await postService.createPost(post);
-    dispatch({ type: 'CREATE', payload: data })
+    dispatch({ type: 'CREATE', payload: data });
   } catch (error) {
     console.log(error);
+  }
+}
+
+export const updatePost = (id, post) => async (dispatch) => {
+  try {
+    const { data } = await postService.updatePost(id, post);
+    dispatch({ type: 'UPDATE', payload: data });
+  } catch (error) {
+    console.log(error.message);
   }
 }
