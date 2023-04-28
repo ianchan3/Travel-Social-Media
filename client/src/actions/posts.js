@@ -1,9 +1,10 @@
 import * as postService from '../services/postService';
+import * as actionTypes from '../constants/actionTypes';
 
 export const getPosts = () => async (dispatch) => {
   try {
     const { data } = await postService.fetchPosts();
-    dispatch({ type: 'FETCH_ALL', payload: data });
+    dispatch({ type: actionTypes.FETCH_ALL, payload: data });
   } catch (error) {
     console.log(error.message);
   }
@@ -12,7 +13,7 @@ export const getPosts = () => async (dispatch) => {
 export const createPost = (post) => async (dispatch) => {
   try {
     const {data} = await postService.createPost(post);
-    dispatch({ type: 'CREATE', payload: data });
+    dispatch({ type: actionTypes.CREATE, payload: data });
   } catch (error) {
     console.log(error);
   }
@@ -21,7 +22,7 @@ export const createPost = (post) => async (dispatch) => {
 export const updatePost = (id, post) => async (dispatch) => {
   try {
     const { data } = await postService.updatePost(id, post);
-    dispatch({ type: 'UPDATE', payload: data });
+    dispatch({ type: actionTypes.UPDATE, payload: data });
   } catch (error) {
     console.log(error);
   }
@@ -30,7 +31,7 @@ export const updatePost = (id, post) => async (dispatch) => {
 export const deletePost = (id) => async (dispatch) => {
   try {
     await postService.deletePost(id);
-    dispatch({ type: 'DELETE', payload: id});
+    dispatch({ type: actionTypes.DELETE, payload: id});
   } catch (error) {
     console.log(error)
   }
@@ -39,7 +40,7 @@ export const deletePost = (id) => async (dispatch) => {
 export const likePost = (id) => async (dispatch) => {
   try {
     const { data } = await postService.likePost(id);
-    dispatch({ type: 'UPDATE', payload: data });
+    dispatch({ type: actionTypes.UPDATE, payload: data });
   } catch (error) {
     console.log(error);
   }
