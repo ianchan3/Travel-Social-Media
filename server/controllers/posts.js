@@ -1,5 +1,7 @@
 import Post from '../models/post.js';
 
+import mongoose from 'mongoose';
+
 async function index (req, res) {
   try {
     const post =  await Post.find();
@@ -22,13 +24,21 @@ async function create (req, res) {
 }
 
 async function update (req, res) {
-  const { id: _id } = req.params;
+  const { id } = req.params;
   const post = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("No Post with that ID");
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No Post with that ID");
 
-  const updatedPost = await Post.findByIdAndUpdate(_id, post, { new: true });
+  const updatedPost = await Post.findByIdAndUpdate(id, { ...post, id}, { new: true });
   res.json(updatedPost)
 }
 
-export {index, create, update}
+async function deletePost (req, res) {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No Post with that ID");
+  await Post.findByIdAndRemove(id);
+  console.log("DELTE");
+  res.json({ message: 'Post deleted successfully' })
+}
+
+export {index, create, update, deletePost}
