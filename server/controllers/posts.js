@@ -43,9 +43,20 @@ async function deletePost (req, res) {
 
 async function likePost (req, res) {
   const { id } = req.params;
+
+  if(!req.userId) return res.json({ message: 'Not Authenticated' })
+
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No Post with that ID");
   const post = await Post.findById(id);
-  const updatedPost = await Post.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true } )
+
+  const index = post.likes.findIndex((id) => id === String(req.userId));
+
+  if (index === -1) {
+    post.likes.push(req.userId);
+  } else {
+    post.likes = post.likes.filter((id) => id !== String(req.userId));
+  }
+  const updatedPost = await Post.findByIdAndUpdate(id, post, { new: true } )
   res.json(updatedPost);
 }
 

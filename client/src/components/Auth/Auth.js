@@ -8,27 +8,36 @@ import Input from './Input';
 // import Icon from "./icon";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
+import { login, signup } from '../../actions/auth';
 
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
 
 export default function Auth() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [formData, setFormData] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword)
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    if (isSignup) {
+      dispatch(signup(formData, navigate))
+    } else {
+      dispatch(login(formData, navigate))
+    }
   };
 
-  const handleChange = () => {
-
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const switchMode = () => {
     setIsSignup(!isSignup)
-    handleShowPassword(false);
+    setShowPassword(false);
   };
 
   const googleSuccess = async (res) => {
