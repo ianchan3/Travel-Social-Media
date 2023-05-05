@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { AppBar, Typography, Toolbar, Button, Avatar } from '@material-ui/core';
 import memories from '../../images/memories.png';
 import useStyles from './styles';
+import decode from 'jwt-decode';
+
 
 export default function Navbar() {
   const classes = useStyles();
@@ -21,7 +23,6 @@ export default function Navbar() {
 
   useEffect(() => {
     const token = user?.token;
-
     setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location]);
   return (
