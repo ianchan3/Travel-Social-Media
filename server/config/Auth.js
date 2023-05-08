@@ -16,7 +16,8 @@ const auth = async (req, res, next) => {
       decodedData = jwt.decode(token);
 
       // sub is google OAuth's way of unique ID
-      req.usedId = decodedData?.sub;
+      req.userId = decodedData?.sub;
+      console.log(req.userId);
     }
     next();
   } catch (error) {

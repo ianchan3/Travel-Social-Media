@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Avatar, Button, Paper, Grid, Typography, Container} from '@material-ui/core';
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
@@ -45,7 +45,7 @@ export default function Auth() {
     const result = jwt_decode(token);
 
     try {
-      dispatch({ type: 'AUTH', data: { result }})
+      dispatch({ type: 'AUTH', data: { result, token }})
       navigate("/")
     } catch (error) {
       console.log(error)
