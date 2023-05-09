@@ -30,11 +30,6 @@ export default function Home() {
   const handleDeleteChip = (chipToDelete) => setTags(tags.filter((tag) => tag !== chipToDelete));
   
   
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
-  
-  
   const searchPost = () => {
     if(search.trim() || tags ) {
       dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
@@ -64,7 +59,7 @@ export default function Home() {
         </AppBar>
           <Form currentId={currentId} setCurrentId={setCurrentId}/>
           <Paper className={classes.pagination} elevation={6}>
-            <Pagination />
+            <Pagination page={page}/>
           </Paper>
         </Grid>
       </Grid>

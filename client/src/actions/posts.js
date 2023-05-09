@@ -1,10 +1,11 @@
 import * as postService from '../services/postService';
 import * as actionTypes from '../constants/actionTypes';
 
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
   try {
-    const { data } = await postService.fetchPosts();
-    dispatch({ type: actionTypes.FETCH_ALL, payload: data });
+    const { data: { data, currentPage, numberOfPages} } = await postService.fetchPosts(page);
+
+    dispatch({ type: actionTypes.FETCH_ALL, payload: { data, currentPage, numberOfPages} });
   } catch (error) {
     console.log(error.message);
   }
@@ -14,7 +15,6 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   try {
     const { data: { data } } = await postService.fetchPostsBySearch(searchQuery);
     dispatch({ type: actionTypes.FETCH_BY_SEARCH, payload: data });
-    console.log(data);
   } catch (error) {
     console.log(error);
   }
@@ -22,7 +22,7 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
   try {
-    const {data} = await postService.createPost(post);
+    const { data } = await postService.createPost(post);
     dispatch({ type: actionTypes.CREATE, payload: data });
   } catch (error) {
     console.log(error);
