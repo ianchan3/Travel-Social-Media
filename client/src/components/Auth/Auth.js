@@ -43,6 +43,7 @@ export default function Auth() {
   const googleSuccess = async (res) => {
     const token = res?.credential;
     const result = jwt_decode(token);
+    console.log(result);
 
     try {
       dispatch({ type: 'AUTH', data: { result, token }})
