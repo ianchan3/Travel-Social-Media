@@ -15,16 +15,18 @@ async function index (req, res) {
 async function getPostsBySearch (req, res) {
 
   const { searchQuery, tags } = req.query;
+
   try {
-    const title = new RegExp(searchQuery, 'i'); 
-    // the letter i will match all forms of upper/lowercase combinations
-    const posts = await Post.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ]});
-    res.json({ data: posts })
-  } catch (error) {
-    res.status(404).json({ message: error.message })
+      const title = new RegExp(searchQuery, "i");
+      // the letter i will match all forms of upper/lowercase combinations
+
+      const posts = await Post.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ]});
+
+      res.json({ data: posts });
+  } catch (error) {    
+      res.status(404).json({ message: error.message });
   }
 }
-
 
 async function create (req, res) {
   const post = req.body;

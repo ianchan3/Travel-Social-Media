@@ -13,6 +13,7 @@ export const getPosts = () => async (dispatch) => {
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   try {
     const { data: { data } } = await postService.fetchPostsBySearch(searchQuery);
+    dispatch({ type: actionTypes.FETCH_BY_SEARCH, payload: data });
     console.log(data);
   } catch (error) {
     console.log(error);
