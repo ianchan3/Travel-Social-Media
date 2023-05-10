@@ -15,6 +15,17 @@ async function index (req, res) {
   }
 };
 
+async function getPost (req,res) {
+  const { id } = req.params;
+
+  try {
+    const post = await Post.findById(id)
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+}
+
 async function getPostsBySearch (req, res) {
 
   const { searchQuery, tags } = req.query;
@@ -80,4 +91,4 @@ async function likePost (req, res) {
   res.json(updatedPost);
 }
 
-export {index, create, update, deletePost, likePost, getPostsBySearch}
+export {index, create, update, deletePost, likePost, getPostsBySearch, getPost}

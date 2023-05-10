@@ -13,6 +13,8 @@ export default function postsReducer (state = { isLoading: true, posts: []}, act
       };
     case 'FETCH_BY_SEARCH':
       return { ...state, posts: action.payload} ;
+    case 'FETCH_POST':
+      return { ...state, post: action.payload} ;
       case 'CREATE':
         return { ...state, posts: [...state.posts, action.payload]};
       case 'UPDATE':

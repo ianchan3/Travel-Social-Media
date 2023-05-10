@@ -1,6 +1,20 @@
 import * as postService from '../services/postService';
 import * as actionTypes from '../constants/actionTypes';
 
+
+export const getPost = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: actionTypes.START_LOADING });
+    const { data } = await postService.fetchPost(id);
+    
+    dispatch({ type: actionTypes.FETCH_POST, payload: data });
+    dispatch({ type: actionTypes.END_LOADING });
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 export const getPosts = (page) => async (dispatch) => {
   try {
     dispatch({ type: actionTypes.START_LOADING });
@@ -19,6 +33,7 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     dispatch({ type: actionTypes.START_LOADING });
     const { data: { data } } = await postService.fetchPostsBySearch(searchQuery);
     dispatch({ type: actionTypes.FETCH_BY_SEARCH, payload: data });
+    dispatch({ type: actionTypes.END_LOADING });
   } catch (error) {
     console.log(error);
   }
