@@ -22,6 +22,14 @@ export default function PostDetails () {
     dispatch(getPost(id));
   }, [id])
 
+
+  if (!post) return null;
+
+  if (isLoading) {
+    return <Paper elevation={6} className={classes.loadingPaper}>
+      <CircularProgress size="7em" />
+    </Paper>
+  }
   return (
    <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
       <div className={classes.card}>
@@ -31,11 +39,6 @@ export default function PostDetails () {
           <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
           <Typography variant="h6">Created by: {post.name}</Typography>
           <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
-          <Divider style={{ margin: '20px 0' }} />
-          <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
-          <Divider style={{ margin: '20px 0' }} />
-          <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
-          <Divider style={{ margin: '20px 0' }} />
         </div>
         <div className={classes.imageSection}>
           <img className={classes.media} src={post.selectedFile || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={post.title} />
