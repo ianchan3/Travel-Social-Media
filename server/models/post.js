@@ -13,6 +13,10 @@ const postSchema = new Schema({
     type: [String],
     default: [],
   },
+  comments: {
+    type: [String],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: new Date()

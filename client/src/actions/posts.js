@@ -39,10 +39,11 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   }
 }
 
-export const createPost = (post) => async (dispatch) => {
+export const createPost = (post, navigate) => async (dispatch) => {
   try {
     dispatch({ type: actionTypes.START_LOADING });
     const { data } = await postService.createPost(post);
+    navigate(`/posts/${data._id}`);
     dispatch({ type: actionTypes.CREATE, payload: data });
   } catch (error) {
     console.log(error);
@@ -71,6 +72,15 @@ export const likePost = (id) => async (dispatch) => {
   try {
     const { data } = await postService.likePost(id);
     dispatch({ type: actionTypes.UPDATE, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const commentPost = (value, id) => async (dispatch) => {
+  try {
+    const { data } = await postService.comment(value, id);
+    console.log(data);
   } catch (error) {
     console.log(error);
   }
