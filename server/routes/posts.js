@@ -6,9 +6,9 @@ import auth from '../config/Auth.js';
 
 const router = express.Router();
 
+router.get('/search', postsCtrl.getPostsBySearch);
 router.get('/', postsCtrl.index);
 router.get('/:id', postsCtrl.getPost);
-router.get('/search', postsCtrl.getPostsBySearch);
 router.post('/', auth, postsCtrl.create);
 router.patch('/:id', auth, postsCtrl.update);
 router.delete('/:id', auth, postsCtrl.deletePost);
