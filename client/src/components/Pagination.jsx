@@ -14,7 +14,7 @@ export default function Paginate ({ page }) {
 
   useEffect(() => {
     if (page) dispatch(getPosts(page));
-  }, [page]);
+  }, [dispatch, page]);
   
   
   return (
