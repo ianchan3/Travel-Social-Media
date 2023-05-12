@@ -16,6 +16,10 @@ app.use(cors());
 app.use('/posts', postRoutes)
 app.use('/users', userRoutes);
 
+app.get('/', (req, res) => {
+  res.send('APP IS RUNNING')
+});
+
 mongoose.connect(process.env.DATABASE_URL)
 .then(() => {
   // listen for requests
