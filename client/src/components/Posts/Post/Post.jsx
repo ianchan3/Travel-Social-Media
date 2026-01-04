@@ -30,8 +30,8 @@ export default function Post({ post, setCurrentId }) {
   }
 
   const Likes = () => {
-    if (likes > 0) {
-      return likes.find((like) => like === (user?.result.sub || user?.result?._id))
+    if (likes.length > 0) {
+      return likes.find((like) => like === userId)
         ? (
           <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}` }</>
         ) : (
@@ -41,6 +41,7 @@ export default function Post({ post, setCurrentId }) {
 
     return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
   };
+
 
   const openPost = () => {
     navigate(`/posts/${post._id}`)
