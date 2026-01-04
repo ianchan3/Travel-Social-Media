@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { AppBar, Typography, Toolbar, Button, Avatar } from '@material-ui/core';
@@ -14,22 +14,22 @@ export default function Navbar() {
   const location = useLocation();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
-  const logout = () => {
-    dispatch({ type: 'LOGOUT'});
+  const logout = useCallback(() => {
+    dispatch({ type: "LOGOUT" });
     navigate("/auth");
     setUser(null);
-  }
+  }, [dispatch, navigate]);
   console.log(user)
 
+  const token = user?.token;
   useEffect(() => {
-    const token = user?.token;
     if (token) {
       const decodedToken = decode(token);
       
       if(decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
     setUser(JSON.parse(localStorage.getItem('profile')));
-  }, [location]);
+  }, [location, logout, token]);
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <Link to="/"className={classes.brandContainer}>

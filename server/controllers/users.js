@@ -31,6 +31,9 @@ async function signup (req, res) {
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: "User already exists." });
 
+    if (password.length < 6) return res.status(400).json({ message: "Password less than 6 characters"})
+
+
     if (password !== confirmPassword) return res.status(400).json({ message: "Password doesn't match" });
 
     const hashedPassword = await bcrypt.hash(password, 12);

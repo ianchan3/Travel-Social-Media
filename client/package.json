@@ -2,7 +2,7 @@
   "name": "mern-stack-client",
   "version": "0.1.0",
   "engines": {
-    "node": "16.2"
+    "node": "18.16.0"
   },
   "private": true,
   "proxy": "http://localhost:4000",
