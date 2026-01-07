@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 
-let cachedClient = null;
+let cachedClient;
 
 async function getClient() {
   if (cachedClient) return cachedClient;
@@ -12,39 +12,30 @@ async function getClient() {
 
 exports.handler = async (event) => {
   try {
-    const page = Number(event.queryStringParameters?.page || 1);
-    const LIMIT = 8;
-    const startIndex = (page - 1) * LIMIT;
+    const page = Number(event.queryStringParameters?.page ?? 1);
+    const limit = 10;
+    const skip = (page - 1) * limit;
 
     const client = await getClient();
-
-    // change "test" if your DB name is different
-    const db = client.db("test");
-    const collection = db.collection("posts");
-
-    const total = await collection.countDocuments({}); // ✅ define total
-    const posts = await collection
+    const db = client.db(); // or client.db("yourDbName")
+    const posts = await db
+      .collection("posts")
       .find({})
-      .sort({ _id: -1 })
-      .skip(startIndex)
-      .limit(LIMIT)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
       .toArray();
 
-    return {
-      statusCode: 200,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        data: posts,
-        currentPage: page,
-        numberOfPages: Math.ceil(total / LIMIT), // ✅ uses total
-      }),
-    };
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          data: posts,
+          currentPage: page,
+          numberOfPages: Math.ceil(total / LIMIT),
+        }),
+      };
+      
   } catch (err) {
-    console.error("posts function error:", err);
-    return {
-      statusCode: 500,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: err.message }),
-    };
+    return { statusCode: 500, body: err?.message || "Server error" };
   }
 };
