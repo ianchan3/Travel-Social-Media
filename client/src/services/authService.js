@@ -1,7 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
+
 const API = axios.create({
-  baseURL: "/.netlify/functions",
+  baseURL: process.env.REACT_APP_API_URL || "/.netlify/functions",
 });
+
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
