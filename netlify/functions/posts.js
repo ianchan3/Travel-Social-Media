@@ -26,15 +26,11 @@ exports.handler = async (event) => {
       .limit(limit)
       .toArray();
 
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          data: posts,
-          currentPage: page,
-          numberOfPages: Math.ceil(total / LIMIT),
-        }),
-      };
-      
+    return {
+      statusCode: 200,
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(posts),
+    };
   } catch (err) {
     return { statusCode: 500, body: err?.message || "Server error" };
   }
