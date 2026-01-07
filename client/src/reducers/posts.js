@@ -11,8 +11,6 @@ export default function postsReducer (state = { isLoading: true, posts: []}, act
         currentPage: action.payload.currentPage,
         numberOfPages: action.payload.numberOfPages,
       };
-      case FETCH_BY_SEARCH:
-        case FETCH_BY_CREATOR:
     case 'COMMENT':
       return { ...state, posts: state.posts.map((post) => {
         if (post._id === action.payload._id) {
