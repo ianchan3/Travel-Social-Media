@@ -31,7 +31,7 @@ export default function Post({ post, setCurrentId }) {
 
   const Likes = () => {
     if (likes.length > 0) {
-      return likes.find((like) => like === userId)
+      return likes.find((like) => like === user?.result.sub || user?.result?._id)
         ? (
           <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}` }</>
         ) : (
